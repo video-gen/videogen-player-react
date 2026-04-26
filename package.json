@@ -1,0 +1,40 @@
+{
+  "name": "@videogen/player-react",
+  "version": "0.1.4",
+  "description": "Official VideoGen video player component for React. Lightweight wrapper with built-in branding.",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/video-gen/videogen-player-react.git"
+  },
+  "homepage": "https://videogen.io",
+  "author": "VideoGen, Inc.",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup src/index.tsx --format esm --dts",
+    "generate": "rm -rf /tmp/vg-player-react-generate && git clone --depth 1 https://github.com/video-gen/videogen-player-react.git /tmp/vg-player-react-generate && rsync -a --delete --exclude='.git' --exclude='node_modules' --exclude='dist' ./ /tmp/vg-player-react-generate/ && cd /tmp/vg-player-react-generate && git add -A && git diff --cached --quiet || (git commit -m 'Sync from monorepo' && git push) && rm -rf /tmp/vg-player-react-generate",
+    "publish:npm": "npm whoami || npm login && rm -rf /tmp/vg-player-react-publish && git clone --depth 1 https://github.com/video-gen/videogen-player-react.git /tmp/vg-player-react-publish && cd /tmp/vg-player-react-publish && pnpm install && pnpm build && npm publish --access public && rm -rf /tmp/vg-player-react-publish",
+    "release": "pnpm run generate && pnpm run publish:npm"
+  },
+  "dependencies": {
+    "@mux/mux-player-react": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
